@@ -1,37 +1,48 @@
 import csv
 
-# Definir el nombre del archivo CSV para pacientes
 archivo_pacientes = "pacientes.csv"
 
-# Función para agregar un nuevo paciente al archivo CSV
+#agregar un nuevo paciente al archivo pacientes.CSV
 def agregar_paciente():
-    with open(archivo_pacientes, mode='a', newline='') as file:
-        writer = csv.writer(file)
-        nombre = input("Nombre del paciente: ")
-        fecha_nacimiento = input("Fecha de nacimiento (YYYY-MM-DD): ")
-        genero = input("Género: ")
-        direccion = input("Dirección: ")
-        telefono = input("Número de teléfono: ")
-        email = input("Correo electrónico (opcional): ")
-        identificacion = input("Número de identificación (opcional): ")
-        informacion_medica = input("Información médica relevante (alergias, condiciones, medicamentos): ")
-        writer.writerow([nombre, fecha_nacimiento, genero, direccion, telefono, email, identificacion, informacion_medica])
-    print("Paciente agregado con éxito.")
+    try:
+        with open(archivo_pacientes, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            nombre = input("Nombre del paciente: ")
+            fecha_nacimiento = input("Fecha de nacimiento (YYYY-MM-DD): ")
+            genero = input("Género: ")
+            direccion = input("Dirección: ")
+            telefono = input("Número de teléfono: ")
+            email = input("Correo electrónico (opcional): ")
+            identificacion = input("Número de identificación (opcional): ")
+            informacion_medica = input("Información médica relevante (alergias, condiciones, medicamentos): ")
+            
+            # Validar la fecha de nacimiento en el formato correcto
+            if not fecha_nacimiento or not fecha_nacimiento.strip() or len(fecha_nacimiento) != 10:
+                raise ValueError("La fecha de nacimiento debe estar en el formato YYYY-MM-DD.")
+            
+            writer.writerow([nombre, fecha_nacimiento, genero, direccion, telefono, email, identificacion, informacion_medica])
+        
+        print("Paciente agregado con éxito.")
+    except Exception as e:
+        print(f"Error al agregar paciente: {str(e)}")
 
-# Función para programar una nueva cita
+# buscar pacientes por nombre
+def buscar_pacientes_por_nombre():
+    try:
+        with open(archivo_pacientes, mode='r') as file:
+            reader = csv.reader(file)
+            nombre_buscado = input("Ingrese el nombre del paciente a buscar: ")
+            print("Resultados de la búsqueda:")
+            for row in reader:
+                if nombre_buscado.lower() in row[0].lower():
+                    print(f"Nombre: {row[0]}, Fecha de Nacimiento: {row[1]}, Teléfono: {row[4]}")
+    except Exception as e:
+        print(f"Error al buscar pacientes: {str(e)}")
+
 def programar_cita():
     pass
 
-# Función para buscar pacientes por nombre
-def buscar_pacientes_por_nombre():
-    with open(archivo_pacientes, mode='r') as file:
-        reader = csv.reader(file)
-        nombre_buscado = input("Ingrese el nombre del paciente a buscar: ")
-        print("Resultados de la búsqueda:")
-        for row in reader:
-            if nombre_buscado.lower() in row[0].lower():
-                print(f"Nombre: {row[0]}, Fecha de Nacimiento: {row[1]}, Teléfono: {row[4]}")
-
+#PROGRAMA PRINCIPAL
 # Menú principal
 while True:
     print("\nMenú Principal:")
