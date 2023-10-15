@@ -61,7 +61,20 @@ def modificar_informacion_paciente():
         print(f"Error al modificar información del paciente: {str(e)}")
 
 def programar_cita():
-    pass
+    try:
+        nombre_paciente = input("Nombre del paciente para programar la cita: ")
+        fecha_cita = input("Fecha de la cita (YYYY-MM-DD): ")
+        hora_cita = input("Hora de la cita: ")
+        motivo_cita = input("Motivo de la cita: ")
+
+        with open("citas.csv", mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([nombre_paciente, fecha_cita, hora_cita, motivo_cita])
+        
+        print("Cita programada con éxito.")
+    except Exception as e:
+        print(f"Error al programar la cita: {str(e)}")
+
 
 # Función para visualizar la lista de pacientes
 def visualizar_lista_pacientes():
