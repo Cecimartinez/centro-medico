@@ -3,6 +3,7 @@ El proyecto "Centro Médico" es una aplicación de gestión de pacientes diseña
 
 ## Características Principales
 Registro de pacientes con información detallada. ✅
-Programación y gestión de citas médicas.
+Modificar información de pacientes. ✅
+Programación y gestión de citas médicas. ✅
 Búsqueda y filtrado de pacientes por nombre.  ✅ 
-Generación de informes y estadísticas básicas.
+Generación de informes y estadísticas básicas. 
