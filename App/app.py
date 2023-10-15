@@ -60,6 +60,7 @@ def modificar_informacion_paciente():
     except Exception as e:
         print(f"Error al modificar información del paciente: {str(e)}")
 
+#programar cita paciente 
 def programar_cita():
     try:
         nombre_paciente = input("Nombre del paciente para programar la cita: ")
