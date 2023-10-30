@@ -21,11 +21,11 @@ def generar_turnos(fecha):
     return turnos
 
 # Función para verificar si un turno está disponible
-def turno_disponible(fecha, turno):
+def turno_disponible(fecha, turno, especialidad):
     with open(archivo_citas, 'r') as file:
         reader = csv.reader(file)
         for row in reader:
-            if row[1] == fecha and row[3] == turno:
+            if row[1] == fecha and row[3] == turno and row[2] == especialidad:
                 return False
     return True
 
@@ -133,8 +133,8 @@ def programar_cita():
         # Generar los turnos disponibles para la fecha seleccionada
         turnos = generar_turnos(fecha_cita)
 
-        # Filtrar los turnos que ya han sido tomados
-        turnos = [turno for turno in turnos if turno_disponible(fecha_cita, turno)]
+        # Filtrar los turnos que ya han sido tomados para la misma especialidad
+        turnos = [turno for turno in turnos if turno_disponible(fecha_cita, turno, especialidad)]
 
         # Mostrar los turnos disponibles y obtener la elección del usuario
         print("Turnos disponibles:")
