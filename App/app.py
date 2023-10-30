@@ -1,6 +1,8 @@
 import csv
 
 archivo_pacientes = "pacientes.csv"
+archivo_citas = "citas.csv"
+
 
 # Función para agregar un nuevo paciente al archivo pacientes.CSV
 def agregar_paciente():
@@ -12,8 +14,8 @@ def agregar_paciente():
             genero = input("Género: ")
             direccion = input("Dirección: ")
             telefono = input("Número de teléfono: ")
-            email = input("Correo electrónico (opcional): ")
-            identificacion = input("Número de identificación (opcional): ")
+            email = input("Correo electrónico  ")
+            identificacion = input("Número de identificación :")
             informacion_medica = input("Información médica relevante (alergias, condiciones, medicamentos): ")
 
             # Validar la fecha de nacimiento en el formato correcto
@@ -30,20 +32,16 @@ def agregar_paciente():
     except Exception as e:
         print(f"Error al agregar paciente: {str(e)}")
 
-# Función para buscar pacientes por nombre
-def buscar_pacientes_por_nombre():
+# Función para buscar pacientes por número de identificación
+def buscar_pacientes_por_identificacion():
     try:
         with open(archivo_pacientes, mode='r') as file:
             reader = csv.reader(file)
-            nombre_buscado = input("Ingrese el nombre del paciente a buscar: ")
+            identificacion_buscada = input("Ingrese el número de identificación del paciente a buscar: ")
             print("Resultados de la búsqueda:")
             for row in reader:
-                if nombre_buscado.lower() in row[0].lower():
+                if identificacion_buscada.lower() == row[6].lower():
                     print(f"Nombre: {row[0]}, Fecha de Nacimiento: {row[1]}, Teléfono: {row[4]}")
-    except FileNotFoundError as e:
-        print(f"Error al abrir el archivo: {str(e)}")
-    except (PermissionError, OSError) as e:
-        print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
     except Exception as e:
         print(f"Error al buscar pacientes: {str(e)}")
 
@@ -72,13 +70,13 @@ def modificar_informacion_paciente():
     except Exception as e:
         print(f"Error al modificar información del paciente: {str(e)}")
 
-# Función para verificar si un paciente existe
-def paciente_existe(nombre_paciente):
+#Finción para verificar el número de identificación del paciente
+def paciente_existe(identificacion_paciente):
     try:
         with open(archivo_pacientes, mode='r') as file:
             reader = csv.reader(file)
             for row in reader:
-                if nombre_paciente.lower() == row[0].lower():
+                if identificacion_paciente == row[6]:
                     return True
             return False
     except Exception as e:
@@ -87,10 +85,10 @@ def paciente_existe(nombre_paciente):
 # Función para programar una cita con un paciente
 def programar_cita():
     try:
-        nombre_paciente = input("Nombre del paciente para programar la cita: ")
+        identificacion_paciente = input("Número de identificación del paciente para programar la cita: ")
         
         # Verificar si el paciente existe
-        if not paciente_existe(nombre_paciente):
+        if not paciente_existe(identificacion_paciente):
             print("El paciente no existe. Por favor, registre al paciente primero.")
             return
 
@@ -98,14 +96,13 @@ def programar_cita():
         hora_cita = input("Hora de la cita: ")
         motivo_cita = input("Motivo de la cita: ")
 
-        with open("citas.csv", mode='a', newline='') as file:
+        with open(archivo_citas, mode='a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([nombre_paciente, fecha_cita, hora_cita, motivo_cita])
+            writer.writerow([identificacion_paciente, fecha_cita, hora_cita, motivo_cita])
 
         print("Cita programada con éxito.")
     except Exception as e:
         print(f"Error al programar la cita: {str(e)}")
-
 
 # Función para visualizar la lista de pacientes
 def visualizar_lista_pacientes():
@@ -128,7 +125,7 @@ while True:
     print("\nMenú Principal:")
     print("1. Agregar Nuevo Paciente")
     print("2. Programar Cita Médica")
-    print("3. Buscar Pacientes por Nombre")
+    print("3. Buscar Pacientes por Identificación")
     print("4. Modificar Información de Paciente")
     print("5. Visualizar Lista de Pacientes")
     print("6. Salir")
@@ -139,7 +136,7 @@ while True:
     elif opcion == "2":
         programar_cita()
     elif opcion == "3":
-        buscar_pacientes_por_nombre()
+        buscar_pacientes_por_identificacion()
     elif opcion == "4":
         modificar_informacion_paciente()
     elif opcion == "5":
