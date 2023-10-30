@@ -1,9 +1,33 @@
 import csv
 import datetime
 
-
 archivo_pacientes = "pacientes.csv"
 archivo_citas = "citas.csv"
+
+# Diccionario de especialidades
+especialidades = {
+    1: "Médico Clínico",
+    2: "Traumatología",
+    3: "Gastroenterología",
+    # agregar especialidades
+}
+
+# Función para generar los turnos para una fecha específica
+def generar_turnos(fecha):
+    turnos = []
+    for hora in range(8, 20):
+        for minuto in range(0, 60, 30):
+            turnos.append(f"{fecha} {hora:02d}:{minuto:02d}")
+    return turnos
+
+# Función para verificar si un turno está disponible
+def turno_disponible(fecha, turno):
+    with open(archivo_citas, 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[1] == fecha and row[3] == turno:
+                return False
+    return True
 
 
 # Función para agregar un nuevo paciente al archivo pacientes.CSV
@@ -96,17 +120,37 @@ def programar_cita():
             print("El paciente no existe. Por favor, registre al paciente primero.")
             return
 
+        # Mostrar las especialidades y obtener la elección del usuario
+        print("Especialidades:")
+        for numero, especialidad in especialidades.items():
+            print(f"{numero}. {especialidad}")
+        numero_especialidad = int(input("Seleccione la especialidad: "))
+        especialidad = especialidades[numero_especialidad]
+
+        # Pedir al usuario que ingrese una fecha
         fecha_cita = input("Fecha de la cita (YYYY-MM-DD): ")
-        hora_cita = input("Hora de la cita: ")
-        motivo_cita = input("Motivo de la cita: ")
+
+        # Generar los turnos disponibles para la fecha seleccionada
+        turnos = generar_turnos(fecha_cita)
+
+        # Filtrar los turnos que ya han sido tomados
+        turnos = [turno for turno in turnos if turno_disponible(fecha_cita, turno)]
+
+        # Mostrar los turnos disponibles y obtener la elección del usuario
+        print("Turnos disponibles:")
+        for i, turno in enumerate(turnos, start=1):
+            print(f"{i}. {turno}")
+        numero_turno = int(input("Seleccione el turno: "))
+        turno = turnos[numero_turno - 1] # Obtener el turno seleccionado
 
         with open(archivo_citas, mode='a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([identificacion_paciente, fecha_cita, hora_cita, motivo_cita])
+            writer.writerow([identificacion_paciente, fecha_cita, especialidad, turno])
 
         print("Cita programada con éxito.")
     except Exception as e:
         print(f"Error al programar la cita: {str(e)}")
+
 
 # Función para visualizar la lista de pacientes
 def visualizar_lista_pacientes():
