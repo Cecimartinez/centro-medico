@@ -17,12 +17,16 @@ def agregar_paciente():
             informacion_medica = input("Información médica relevante (alergias, condiciones, medicamentos): ")
 
             # Validar la fecha de nacimiento en el formato correcto
-            if not fecha_nacimiento or not fecha_nacimiento.strip() or len(fecha_nacimiento) != 10:
+            if not fecha_nacimiento.strip() or len(fecha_nacimiento) != 10:
                 raise ValueError("La fecha de nacimiento debe estar en el formato YYYY-MM-DD.")
 
             writer.writerow([nombre, fecha_nacimiento, genero, direccion, telefono, email, identificacion, informacion_medica])
 
         print("Paciente agregado con éxito.")
+    except FileNotFoundError as e:
+        print(f"Error al abrir el archivo: {str(e)}")
+    except (PermissionError, OSError) as e:
+        print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
     except Exception as e:
         print(f"Error al agregar paciente: {str(e)}")
 
@@ -36,6 +40,10 @@ def buscar_pacientes_por_nombre():
             for row in reader:
                 if nombre_buscado.lower() in row[0].lower():
                     print(f"Nombre: {row[0]}, Fecha de Nacimiento: {row[1]}, Teléfono: {row[4]}")
+    except FileNotFoundError as e:
+        print(f"Error al abrir el archivo: {str(e)}")
+    except (PermissionError, OSError) as e:
+        print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
     except Exception as e:
         print(f"Error al buscar pacientes: {str(e)}")
 
@@ -57,13 +65,35 @@ def modificar_informacion_paciente():
                     paciente[4] = nuevo_telefono
                 writer.writerow(paciente)
         print(f"Información de {nombre_modificar} modificada con éxito.")
+    except FileNotFoundError as e:
+        print(f"Error al abrir el archivo: {str(e)}")
+    except (PermissionError, OSError) as e:
+        print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
     except Exception as e:
         print(f"Error al modificar información del paciente: {str(e)}")
 
-#programar cita paciente 
+# Función para verificar si un paciente existe
+def paciente_existe(nombre_paciente):
+    try:
+        with open(archivo_pacientes, mode='r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                if nombre_paciente.lower() == row[0].lower():
+                    return True
+            return False
+    except Exception as e:
+        print(f"Error al verificar si el paciente existe: {str(e)}")
+
+# Función para programar una cita con un paciente
 def programar_cita():
     try:
         nombre_paciente = input("Nombre del paciente para programar la cita: ")
+        
+        # Verificar si el paciente existe
+        if not paciente_existe(nombre_paciente):
+            print("El paciente no existe. Por favor, registre al paciente primero.")
+            return
+
         fecha_cita = input("Fecha de la cita (YYYY-MM-DD): ")
         hora_cita = input("Hora de la cita: ")
         motivo_cita = input("Motivo de la cita: ")
@@ -71,7 +101,7 @@ def programar_cita():
         with open("citas.csv", mode='a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([nombre_paciente, fecha_cita, hora_cita, motivo_cita])
-        
+
         print("Cita programada con éxito.")
     except Exception as e:
         print(f"Error al programar la cita: {str(e)}")
@@ -85,6 +115,10 @@ def visualizar_lista_pacientes():
             print("Lista de Pacientes:")
             for row in reader:
                 print(f"Nombre: {row[0]}, Fecha de Nacimiento: {row[1]}, Teléfono: {row[4]}")
+    except FileNotFoundError as e:
+        print(f"Error al abrir el archivo: {str(e)}")
+    except (PermissionError, OSError) as e:
+        print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
     except Exception as e:
         print(f"Error al visualizar lista de pacientes: {str(e)}")
 
