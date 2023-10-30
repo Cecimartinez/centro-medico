@@ -1,4 +1,6 @@
 import csv
+import datetime
+
 
 archivo_pacientes = "pacientes.csv"
 archivo_citas = "citas.csv"
@@ -18,8 +20,10 @@ def agregar_paciente():
             identificacion = input("Número de identificación :")
             informacion_medica = input("Información médica relevante (alergias, condiciones, medicamentos): ")
 
-            # Validar la fecha de nacimiento en el formato correcto
-            if not fecha_nacimiento.strip() or len(fecha_nacimiento) != 10:
+            # Validar la fecha 
+            try:
+                datetime.datetime.strptime(fecha_nacimiento, "%Y-%m-%d")
+            except ValueError:
                 raise ValueError("La fecha de nacimiento debe estar en el formato YYYY-MM-DD.")
 
             writer.writerow([nombre, fecha_nacimiento, genero, direccion, telefono, email, identificacion, informacion_medica])
