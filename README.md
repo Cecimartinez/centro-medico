@@ -8,7 +8,7 @@ Programación y gestión de citas médicas. ✅
 Búsqueda y filtrado de pacientes por nombre.  ✅ 
 Generación de informes y estadísticas básicas. 
 
-###Mejoras:
+### Mejoras:
 • Buscar pacientes por número de identificación registrado  ✅
 • Agregar lista de especialidades del centro medico ✅
 • Buscar fechas y horarios disponibles, teniendo en cuenta la especialidad  ✅
