@@ -1,5 +1,14 @@
 import csv
 import datetime
+from validate_email_address import validate_email
+
+archivo_pacientes = "pacientes.csv"
+
+# Función para agregar un nuevo paciente al archivo pacientes.CSV
+import csv
+import datetime
+from validate_email_address import validate_email
+
 archivo_pacientes = "pacientes.csv"
 
 # Función para agregar un nuevo paciente al archivo pacientes.CSV
@@ -19,7 +28,12 @@ def agregar_paciente():
             genero = input("Género: ")
             direccion = input("Dirección: ")
             telefono = input("Número de teléfono: ")
+
             email = input("Correo electrónico: ")
+            while not validate_email(email):
+                print("El formato del correo electrónico no es válido.")
+                email = input("Correo electrónico: ")
+
             informacion_medica = input("Información médica relevante (alergias, condiciones, medicamentos): ")
 
             # Validar la fecha
@@ -37,6 +51,7 @@ def agregar_paciente():
         print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
     except Exception as e:
         print(f"Error al agregar paciente: {str(e)}")
+
 
 
 # Función para buscar pacientes por número de identificación
