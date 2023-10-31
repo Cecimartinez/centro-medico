@@ -32,7 +32,7 @@ def turno_disponible(fecha, turno, especialidad):
 # Función para programar una cita con un paciente
 def programar_cita():
     try:
-        identificacion_paciente = input("Número de identificación del paciente para programar la cita: ")
+        identificacion_paciente = input("Número de DNI del paciente para programar la cita: ")
 
         # Verificar si el paciente existe
         if not paciente_existe(identificacion_paciente):

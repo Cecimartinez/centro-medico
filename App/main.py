@@ -5,7 +5,7 @@ while True:
     print("\nMenú Principal:")
     print("1. Agregar Nuevo Paciente")
     print("2. Programar Cita Médica")
-    print("3. Buscar Pacientes por Identificación")
+    print("3. Buscar Pacientes por DNI")
     print("4. Modificar Información de Paciente")
     print("5. Visualizar Lista de Pacientes")
     print("6. Salir")

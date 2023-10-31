@@ -5,6 +5,13 @@ archivo_pacientes = "pacientes.csv"
 # Función para agregar un nuevo paciente al archivo pacientes.CSV
 def agregar_paciente():
     try:
+        identificacion = input("Número de DNI del paciente: ")
+
+        # Verificar si el paciente ya existe
+        if paciente_existe(identificacion):
+            print("El paciente con este número de identificación ya está registrado.")
+            return
+
         with open(archivo_pacientes, mode='a', newline='') as file:
             writer = csv.writer(file)
             nombre = input("Nombre del paciente: ")
@@ -13,7 +20,6 @@ def agregar_paciente():
             direccion = input("Dirección: ")
             telefono = input("Número de teléfono: ")
             email = input("Correo electrónico: ")
-            identificacion = input("Número de identificación: ")
             informacion_medica = input("Información médica relevante (alergias, condiciones, medicamentos): ")
 
             # Validar la fecha
@@ -32,12 +38,13 @@ def agregar_paciente():
     except Exception as e:
         print(f"Error al agregar paciente: {str(e)}")
 
+
 # Función para buscar pacientes por número de identificación
 def buscar_pacientes_por_identificacion():
     try:
         with open(archivo_pacientes, mode='r') as file:
             reader = csv.reader(file)
-            identificacion_buscada = input("Ingrese el número de identificación del paciente a buscar: ")
+            identificacion_buscada = input("Ingrese el DNI del paciente a buscar: ")
             print("Resultados de la búsqueda:")
             for row in reader:
                 if identificacion_buscada.lower() == row[6].lower():
