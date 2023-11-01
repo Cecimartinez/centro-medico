@@ -24,7 +24,19 @@ def agregar_paciente():
         with open(archivo_pacientes, mode='a', newline='') as file:
             writer = csv.writer(file)
             nombre = input("Nombre del paciente: ")
-            fecha_nacimiento = input("Fecha de nacimiento (YYYY-MM-DD): ")
+            
+            fecha_nacimiento = None
+            while fecha_nacimiento is None:
+                fecha_nacimiento_input = input("Fecha de nacimiento (YYYY-MM-DD): ")
+                try:
+                    fecha_nacimiento = datetime.datetime.strptime(fecha_nacimiento_input, "%Y-%m-%d")
+                    if fecha_nacimiento.year < 1900:
+                        print("El año de nacimiento es demasiado antiguo. Por favor, ingrese una fecha válida.")
+                        fecha_nacimiento = None
+                except ValueError:
+                    print("La fecha de nacimiento debe estar en el formato YYYY-MM-DD.")
+                    fecha_nacimiento = None
+
             genero = input("Género: ")
             direccion = input("Dirección: ")
             telefono = input("Número de teléfono: ")
@@ -36,13 +48,7 @@ def agregar_paciente():
 
             informacion_medica = input("Información médica relevante (alergias, condiciones, medicamentos): ")
 
-            # Validar la fecha
-            try:
-                datetime.datetime.strptime(fecha_nacimiento, "%Y-%m-%d")
-            except ValueError:
-                raise ValueError("La fecha de nacimiento debe estar en el formato YYYY-MM-DD.")
-
-            writer.writerow([nombre, fecha_nacimiento, genero, direccion, telefono, email, identificacion, informacion_medica])
+            writer.writerow([nombre, fecha_nacimiento.strftime("%Y-%m-%d"), genero, direccion, telefono, email, identificacion, informacion_medica])
 
         print("Paciente agregado con éxito.")
     except FileNotFoundError as e:
@@ -51,8 +57,7 @@ def agregar_paciente():
         print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
     except Exception as e:
         print(f"Error al agregar paciente: {str(e)}")
-
-
+ 
 
 # Función para buscar pacientes por número de identificación
 def buscar_pacientes_por_identificacion():
@@ -118,3 +123,4 @@ def visualizar_lista_pacientes():
         print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
     except Exception as e:
         print(f"Error al visualizar lista de pacientes: {str(e)}")
+
