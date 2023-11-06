@@ -37,7 +37,11 @@ def agregar_paciente():
                     print("La fecha de nacimiento debe estar en el formato YYYY-MM-DD.")
                     fecha_nacimiento = None
 
-            genero = input("Género: ")
+            genero = input("Ingrese el género (F/M): ").strip().upper()
+            while genero != "F" and genero != "M":
+                print("Género no válido. Por favor, ingrese 'F' para femenino o 'M' para masculino.")
+                genero = input("Ingrese el género (F/M): ").strip().upper()
+
             direccion = input("Dirección: ")
             telefono = input("Número de teléfono: ")
 
