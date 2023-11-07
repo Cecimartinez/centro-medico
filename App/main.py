@@ -8,7 +8,8 @@ while True:
     print("3. Buscar Pacientes por DNI")
     print("4. Modificar Información de Paciente")
     print("5. Visualizar Lista de Pacientes")
-    print("6. Salir")
+    print("6. Ver Todas las Citas")  
+    print("7. Salir")
     opcion = input("Ingrese el número de opción: ")
 
     if opcion == "1":
@@ -22,7 +23,8 @@ while True:
     elif opcion == "5":
         pacientes.visualizar_lista_pacientes()
     elif opcion == "6":
+        citas.ver_todas_las_citas()  
+    elif opcion == "7":
         break
     else:
         print("Opción no válida. Por favor, ingrese una opción válida.")
-

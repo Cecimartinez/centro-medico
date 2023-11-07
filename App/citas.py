@@ -105,3 +105,18 @@ def paciente_existe(identificacion_paciente):
             return False
     except Exception as e:
         print(f"Error al verificar si el paciente existe: {str(e)}")
+
+# Función para ver todas las citas
+def ver_todas_las_citas():
+    try:
+        with open(archivo_citas, 'r') as file:
+            reader = csv.reader(file)
+            print("Todas las Citas:")
+            for row in reader:
+                print(f"Paciente: {row[0]}, Fecha: {row[1]}, Especialidad: {row[2]}, Turno: {row[3]}")
+    except FileNotFoundError as e:
+        print(f"Error al abrir el archivo: {str(e)}")
+    except (PermissionError, OSError) as e:
+        print(f"Error de permisos u otro error relacionado con el archivo: {str(e)}")
+    except Exception as e:
+        print(f"Error al visualizar las citas: {str(e)}")
