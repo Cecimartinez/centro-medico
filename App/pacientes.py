@@ -79,21 +79,27 @@ def buscar_pacientes_por_identificacion():
 # Función para modificar la información de un paciente
 def modificar_informacion_paciente():
     try:
+        dni_modificar = input("Ingrese el DNI del paciente a modificar: ")
+
+        # Verificar si el paciente existe
+        if not paciente_existe(dni_modificar):
+            print("El paciente con este DNI no está registrado.")
+            return
+
         with open(archivo_pacientes, mode='r') as file:
             reader = csv.reader(file)
-            nombre_modificar = input("Ingrese el nombre del paciente a modificar: ")
             pacientes = list(reader)
 
         with open(archivo_pacientes, mode='w', newline='') as file:
             writer = csv.writer(file)
             for paciente in pacientes:
-                if nombre_modificar.lower() == paciente[0].lower():
+                if dni_modificar == paciente[6]:
                     nueva_direccion = input(f"Nueva dirección para {paciente[0]}: ")
                     nuevo_telefono = input(f"Nuevo número de teléfono para {paciente[0]}: ")
                     paciente[3] = nueva_direccion
                     paciente[4] = nuevo_telefono
                 writer.writerow(paciente)
-        print(f"Información de {nombre_modificar} modificada con éxito.")
+        print(f"Información del paciente con DNI {dni_modificar} modificada con éxito.")
     except FileNotFoundError as e:
         print(f"Error al abrir el archivo: {str(e)}")
     except (PermissionError, OSError) as e:
