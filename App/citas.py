@@ -9,8 +9,14 @@ especialidades = {
     1: "Médico Clínico",
     2: "Traumatología",
     3: "Gastroenterología",
-    # Agregar especialidades
-}
+    4: "Laboratorio",
+    5: "Cardiología",
+    6: "Ginecología y Obstetricia",
+    7: "Neurología",
+    8: "Pediatría",
+    9: "Dermatología",
+    10: "Oftalmología"
+    }
 
 # Función para generar los turnos para una fecha específica
 def generar_turnos(fecha):
@@ -53,7 +59,7 @@ def programar_cita():
         # Pedir al usuario que ingrese una fecha
         fecha_cita = input("Fecha de la cita (YYYY-MM-DD): ")
 
-         # Validar la fecha
+        # Validar la fecha
         try:
             datetime.datetime.strptime(fecha_cita, "%Y-%m-%d")
         except ValueError:
